@@ -1,0 +1,74 @@
+from collections import OrderedDict
+
+
+from omegaconf import DictConfig
+from hydra.utils import instantiate
+
+import torch
+
+from model import Net, test
+from vmunet_v2 import VMUNetV2
+from test import testing_process
+from utils import *
+
+def get_on_fit_config(config: DictConfig):
+    """Return a function to configure the client's fit."""
+
+    def fit_config_fn(server_round: int):
+
+        # change the learning rate with server_round
+        # if server_round > 50:
+        #     lr = config.lr / 10
+        # else:
+        #     lr = config.lr
+        return {
+            "lr": config.lr,
+            "betas"  : config.betas,
+            "eps": config.eps,
+            "weight_decay": config.weight_decay,
+            "amsgrad" : config.amsgrad,
+            "local_epochs": config.local_epochs,
+            "T_max" : config.T_max,
+            "eta_min" : config.eta_min,
+            "last_epoch" : config.last_epoch
+        }
+
+    return fit_config_fn
+
+
+def get_evalulate_fn(model_cfg: int, testloader):
+    """Return a function to evaluate the global model."""
+
+    def evaluate_fn(server_round: int, parameters, config):
+
+        # defining model 
+        model = VMUNetV2(deep_supervision= model_cfg.deep_supervision,
+                              depths=model_cfg.depths,
+                              depths_decoder=model_cfg.depths_decoder,
+                              drop_path_rate=model_cfg.drop_path_rate,
+                              input_channels=model_cfg.input_channels,
+                              load_ckpt_path=model_cfg.load_ckpt_path,
+                              num_classes=model_cfg.num_classes)
+
+        device = torch.device("cuda:0" if  torch.cuda.is_available() else "cpu")
+        params_dict = zip(model.state_dict().keys(), parameters)
+        state_dict = OrderedDict({k: torch.Tensor(v) for k, v in params_dict})
+
+        model.load_state_dict(state_dict, strict=True)
+
+        criterion = BceDiceLoss(wb=1, wd=1)
+        local_epochs = config["local_epochs"]
+
+
+        loss , metrics = testing_process(val_loader=testloader,
+                        model=model,
+                        criterion= criterion
+                        )        
+
+        return float(loss), {"accuracy": metrics[0],
+                             "sensitivity": metrics[1],
+                             "specificity": metrics[2],
+                             "f1_or_dsc": metrics[3],
+                             "miou": metric[4]}
+
+    return evaluate_fn

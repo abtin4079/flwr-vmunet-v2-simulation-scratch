@@ -1,0 +1,39 @@
+[2024-07-28 08:25:21,595][flwr][WARNING] - 
+Setting `min_available_clients` lower than `min_fit_clients` or
+`min_evaluate_clients` can cause the server to fail when there are too few clients
+connected to the server. `min_available_clients` must be set to a value larger
+than or equal to the values of `min_fit_clients` and `min_evaluate_clients`.
+
+[2024-07-28 08:25:21,612][flwr][INFO] - Starting Flower simulation, config: num_rounds=2, no round_timeout
+[2024-07-28 08:25:28,724][flwr][INFO] - Flower VCE: Ray initialized with resources: {'accelerator_type:G': 1.0, 'CPU': 4.0, 'node:127.0.0.1': 1.0, 'memory': 2146256487.0, 'object_store_memory': 1073128243.0, 'node:__internal_head__': 1.0, 'GPU': 1.0}
+[2024-07-28 08:25:28,724][flwr][INFO] - Optimize your simulation with Flower VCE: https://flower.ai/docs/framework/how-to-run-simulations.html
+[2024-07-28 08:25:28,724][flwr][INFO] - Flower VCE: Resources for each Virtual Client: {'num_cpus': 2, 'num_gpus': 0.0}
+[2024-07-28 08:25:28,764][flwr][INFO] - Flower VCE: Creating VirtualClientEngineActorPool with 2 actors
+[2024-07-28 08:25:28,778][flwr][INFO] - [INIT]
+[2024-07-28 08:25:28,805][flwr][INFO] - Requesting initial parameters from one random client
+[2024-07-28 08:25:36,714][flwr][INFO] - Received initial parameters from one random client
+[2024-07-28 08:25:36,729][flwr][INFO] - Evaluating initial global parameters
+[2024-07-28 08:25:41,034][flwr][INFO] - initial parameters (loss, other metrics): 181.9280309677124, {'accuracy': 0.1458}
+[2024-07-28 08:25:41,034][flwr][INFO] - 
+[2024-07-28 08:25:41,034][flwr][INFO] - [ROUND 1]
+[2024-07-28 08:25:41,050][flwr][INFO] - Sampling failed: number of available clients (2) is less than number of requested clients (10).
+[2024-07-28 08:25:41,051][flwr][INFO] - configure_fit: no clients selected, cancel
+[2024-07-28 08:25:43,466][flwr][INFO] - fit progress: (1, 181.9280309677124, {'accuracy': 0.1458}, 2.4268994)
+[2024-07-28 08:25:43,466][flwr][INFO] - Sampling failed: number of available clients (2) is less than number of requested clients (25).
+[2024-07-28 08:25:43,466][flwr][INFO] - configure_evaluate: no clients selected, skipping evaluation
+[2024-07-28 08:25:43,466][flwr][INFO] - 
+[2024-07-28 08:25:43,466][flwr][INFO] - [ROUND 2]
+[2024-07-28 08:25:43,466][flwr][INFO] - Sampling failed: number of available clients (2) is less than number of requested clients (10).
+[2024-07-28 08:25:43,466][flwr][INFO] - configure_fit: no clients selected, cancel
+[2024-07-28 08:25:46,062][flwr][INFO] - fit progress: (2, 181.9280309677124, {'accuracy': 0.1458}, 5.026416999999999)
+[2024-07-28 08:25:46,062][flwr][INFO] - Sampling failed: number of available clients (2) is less than number of requested clients (25).
+[2024-07-28 08:25:46,077][flwr][INFO] - configure_evaluate: no clients selected, skipping evaluation
+[2024-07-28 08:25:46,078][flwr][INFO] - 
+[2024-07-28 08:25:46,078][flwr][INFO] - [SUMMARY]
+[2024-07-28 08:25:46,081][flwr][INFO] - Run finished 2 rounds in 5.03s
+[2024-07-28 08:25:46,082][flwr][INFO] - History (loss, centralized):
+[2024-07-28 08:25:46,083][flwr][INFO] - 	('\tround 0: 181.9280309677124\n'
+[2024-07-28 08:25:46,084][flwr][INFO] - 	 '\tround 1: 181.9280309677124\n'
+[2024-07-28 08:25:46,085][flwr][INFO] - 	 '\tround 2: 181.9280309677124\n')History (metrics, centralized):
+[2024-07-28 08:25:46,086][flwr][INFO] - 	{'accuracy': [(0, 0.1458), (1, 0.1458), (2, 0.1458)]}
+[2024-07-28 08:25:46,086][flwr][INFO] - 

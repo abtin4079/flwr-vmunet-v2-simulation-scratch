@@ -1,0 +1,26 @@
+---
+
+num_rounds: 4
+num_clients: 2
+batch_size: 10
+num_classes: 1
+num_clients_per_round_fit: 2
+num_clients_per_round_eval: 2
+config_fit:
+  lr: 0.001
+  betas: (0.9, 0.999)
+  eps: 0.00000001
+  weight_decay: 0.01
+  amsgrad: False
+  local_epochs: 1
+  T_max: 50
+  eta_min: 0.00001
+  last_epoch: -1
+
+defaults:
+  - model: net
+  - strategy: fedavg # points to conf/strategy/fedavg.yaml
+
+
+input_size_h : 256
+input_size_w : 256
