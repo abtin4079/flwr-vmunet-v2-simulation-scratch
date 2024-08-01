@@ -47,13 +47,33 @@ class FlowerClient(fl.client.NumPyClient):
 
     def set_parameters(self, parameters):
         params_dict = zip(self.model.state_dict().keys(), parameters)
-        state_dict = OrderedDict({k: torch.Tensor(v) for k, v in params_dict})
+        state_dict = OrderedDict()
 
-        self.model.load_state_dict(state_dict, strict=True)
+        for key, param in params_dict:
+            param_tensor = torch.tensor(param, dtype=torch.float32)
+
+        # # Debugging print to check shapes
+        # print(f"Setting Parameter: {key}, Original Shape: {param_tensor.shape}")
+
+        # Handle potential shape mismatches
+        if param_tensor.shape == torch.Size([0]):
+            param_tensor = param_tensor.reshape(())
+            # print(f"Reshaped Parameter: {key}, New Shape: {param_tensor.shape}")
+
+        state_dict[key] = param_tensor
+
+        # Print shapes after state_dict is created
+        # print("##### Set Parameter Shapes #####")
+        # for name, tensor in state_dict.items():
+        #     print(f"Set Parameter: {name}, Shape: {tensor.shape}")
+
+        self.model.load_state_dict(state_dict, strict=False)
 
     def get_parameters(self, config: Dict[str, Scalar]) -> NDArrays:
-
-        return [val.cpu().numpy() for _, val in self.model.state_dict().items]
+      parameters = [val.cpu().numpy() for val in self.model.state_dict().values()]
+      # for param in parameters:
+      #     print(f"Parameter shape: {param.shape}")
+      return parameters
 
 
 
