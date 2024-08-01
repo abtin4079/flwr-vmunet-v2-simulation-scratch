@@ -32,10 +32,19 @@ def testing_process(val_loader,
 
     metrics = []
 
+    for i, p in enumerate(preds):
+        print(f"Element {i}: Type={type(p)}, Shape={getattr(p, 'shape', 'N/A')}")
+
+
+    preds = np.concatenate(preds, axis=0)
+    gts = np.concatenate(gts, axis=0)
+
     preds = np.array(preds).reshape(-1)
     gts = np.array(gts).reshape(-1)
+
     y_pre = np.where(preds>= 0.5, 1, 0)
     y_true = np.where(gts>=0.5, 1, 0)
+    
     confusion = confusion_matrix(y_true, y_pre)
     TN, FP, FN, TP = confusion[0,0], confusion[0,1], confusion[1,0], confusion[1,1] 
     accuracy = float(TN + TP) / float(np.sum(confusion)) if float(np.sum(confusion)) != 0 else 0

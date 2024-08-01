@@ -17,7 +17,7 @@ def training_process(train_loader,
     train model for one epoch
     '''
 
-    for _ in local_epochs:
+    for _ in range(local_epochs):
     # switch to train mode
         model.train() 
     
