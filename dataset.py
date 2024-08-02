@@ -89,10 +89,10 @@ def prepare_dataset_kvasir(num_clients: int,
             DataLoader(for_train, batch_size=batch_size, shuffle=True, num_workers=2)
         )
         valloaders.append(
-            DataLoader(for_val, batch_size=batch_size, shuffle=False, num_workers=2)
+            DataLoader(for_val, batch_size=1, shuffle=False, num_workers=2)
         )
 
      
-    testloader = DataLoader(testset, batch_size=20)
+    testloader = DataLoader(testset, batch_size=1)
 
     return trainloaders, valloaders, testloader

@@ -36,9 +36,9 @@ class FlowerClient(fl.client.NumPyClient):
                               input_channels=model_cfg.input_channels,
                               load_ckpt_path=model_cfg.load_ckpt_path,
                               num_classes=model_cfg.num_classes)
-        device = 'cpu:0'
-        print(torch.cuda.is_available())
-        device = 'cuda:0'
+        # device = 'cpu:0'
+        # print(torch.cuda.is_available())
+        # device = 'cuda:0'
 
         self.model = self.model.cuda()
 
