@@ -43,4 +43,6 @@ def training_process(train_loader,
                 log_info = f'train: epoch {local_epochs}, iter:{iter}, loss: {np.mean(loss_list):.4f}, lr: {now_lr}'
                 print(log_info)
         scheduler.step() 
+        now_lr = optimizer.state_dict()['param_groups'][0]['lr']
+        print(f"Epoch {local_epochs + 1}/{local_epochs} completed. Learning rate updated to {now_lr}")
         return step
