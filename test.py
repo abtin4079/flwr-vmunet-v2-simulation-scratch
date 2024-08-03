@@ -32,8 +32,8 @@ def testing_process(val_loader,
 
     metrics = []
 
-    for i, p in enumerate(preds):
-        print(f"Element {i}: Type={type(p)}, Shape={getattr(p, 'shape', 'N/A')}")
+    # for i, p in enumerate(preds):
+    #     print(f"Element {i}: Type={type(p)}, Shape={getattr(p, 'shape', 'N/A')}")
 
 
     preds = np.concatenate(preds, axis=0)
