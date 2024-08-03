@@ -12,7 +12,7 @@ from model import Net, test
 from vmunet_v2 import VMUNetV2
 from test import testing_process
 from utils import *
-
+import os
 
 
 
@@ -36,7 +36,7 @@ def get_on_fit_config(config: DictConfig):
         #     lr = config.lr
 
         file_path = 'learning_rate.txt'
-        if (file_path.exist() and server_round > 0):
+        if (os.path.exists(file_path) and server_round > 0):
             lr = read_lines_and_compute_mean(file_path)
         else:
             lr = config.lr
