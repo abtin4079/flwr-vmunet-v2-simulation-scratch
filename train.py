@@ -45,4 +45,9 @@ def training_process(train_loader,
         scheduler.step() 
         now_lr = optimizer.state_dict()['param_groups'][0]['lr']
         print(f"Epoch {local_epochs + 1}/{local_epochs} completed. Learning rate updated to {now_lr}")
-        return step
+
+            # Write the updated learning rate to a text file
+    with open('learning_rate.txt', 'w') as f:
+        f.write(f"{now_lr}\n")
+
+    return step 

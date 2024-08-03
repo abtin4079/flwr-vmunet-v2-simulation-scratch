@@ -34,8 +34,15 @@ def get_on_fit_config(config: DictConfig):
         #     lr = config.lr / 10
         # else:
         #     lr = config.lr
+
+        file_path = 'learning_rate.txt'
+        if (file_path.exist() and server_round > 0):
+            lr = read_lines_and_compute_mean(file_path)
+        else:
+            lr = config.lr
+
         return {
-            "lr": config.lr,
+            "lr": lr,
             "betas"  : config.betas,
             "eps": config.eps,
             "weight_decay": config.weight_decay,
@@ -115,3 +122,18 @@ def get_evalulate_fn(model_cfg: int, testloader):
                              "miou": metrics[4]}
 
     return evaluate_fn
+
+
+
+def read_lines_and_compute_mean(file_path):
+    with open(file_path, 'r') as file:
+        # Read all lines from the file
+        lines = file.readlines()
+    
+    # Convert each line to a number
+    numbers = [float(line.strip()) for line in lines]
+    
+    # Compute the mean
+    mean = sum(numbers) / len(numbers)
+    
+    return mean
