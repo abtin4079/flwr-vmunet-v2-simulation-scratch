@@ -134,10 +134,14 @@ class FlowerClient(fl.client.NumPyClient):
 
         criterion = BceDiceLoss(wb=1, wd=1)
 
-        loss , metrics = testing_process(val_loader=self.valloader,
-                        model= self.model,
-                        criterion= criterion
-                        )
+        # loss , metrics = testing_process(val_loader=self.valloader,
+        #                 model= self.model,
+        #                 criterion= criterion
+        #                 )
+
+        loss, metrics = test(self.model, self.valloader, self.device, criterion)
+        
+
         return float(loss), len(self.valloader), {"accuracy": metrics[0],
                                                   "sensitivity": metrics[1],
                                                   "specificity": metrics[2],

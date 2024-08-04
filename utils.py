@@ -544,3 +544,15 @@ def test_single_volume(image, label, net, classes, patch_size=[256, 256],
         sitk.WriteImage(lab_itk, test_save_path + '/'+ case + "_gt.nii.gz")
         # cv2.imwrite(test_save_path + '/'+case + '.png', prediction*255)
     return metric_list
+
+def dice_loss(pred, target):
+    pred = torch.sigmoid(pred)
+
+    pred = pred.contiguous().view(-1)
+    target = target.contiguous().view(-1)
+
+    intersection = torch.sum(pred * target)
+    pred_sum = torch.sum(pred * pred)
+    target_sum = torch.sum(target * target)
+
+    return 1 - ((2. * intersection + 1e-5) / (pred_sum + target_sum + 1e-5))

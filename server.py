@@ -110,10 +110,12 @@ def get_evalulate_fn(model_cfg: int, testloader):
         criterion = BceDiceLoss(wb=1, wd=1)
 
 
-        loss , metrics = testing_process(val_loader=testloader,
-                        model=model,
-                        criterion= criterion
-                        )        
+        # loss , metrics = testing_process(val_loader=testloader,
+        #                 model=model,
+        #                 criterion= criterion
+        #                 )   
+
+        loss, metrics = test(model, testloader, device, criterion)     
 
         return float(loss), {"accuracy": metrics[0],
                              "sensitivity": metrics[1],
