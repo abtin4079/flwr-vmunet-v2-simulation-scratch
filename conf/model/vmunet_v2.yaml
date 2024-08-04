@@ -10,6 +10,6 @@ input_channels: 3
 depths: [2,2,9,2]
 depths_decoder: [2,2,2,1]
 drop_path_rate: 0.2
-load_ckpt_path: '/content/drive/MyDrive/kvasir/pretrained_model_for_vmamba/upernet_vssm_4xb4-160k_ade20k-512x512_small_iter_144000.pth'
+load_ckpt_path: '/kaggle/working/upernet_vssm_4xb4-160k_ade20k-512x512_small_iter_144000.pth'
 deep_supervision: True
     

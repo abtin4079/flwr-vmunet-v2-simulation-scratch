@@ -83,7 +83,7 @@ def get_evalulate_fn(model_cfg: int, testloader):
     # Convert parameters to model state_dict
         params_dict = zip(model.state_dict().keys(), parameters)
 
-        state_dict = OrderedDict({k: torch.Tensor(v) for k, v in params_dict})
+        state_dict = OrderedDict({k: torch.tensor(v) for k, v in params_dict})
         it1 = model.state_dict().items()
         it2 = state_dict.items()
         l1 = len(it1)

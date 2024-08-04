@@ -14,6 +14,10 @@ from train import training_process
 from test import testing_process
 from test_v2 import test_v2
 
+from flwr.common import Context
+
+
+
 class FlowerClient(fl.client.NumPyClient):
     """A standard FlowerClient."""
 
@@ -49,7 +53,7 @@ class FlowerClient(fl.client.NumPyClient):
     def set_parameters(self, parameters):
         params_dict = zip(self.model.state_dict().keys(), parameters)
 
-        state_dict = OrderedDict({k: torch.Tensor(v) for k, v in params_dict})
+        state_dict = OrderedDict({k: torch.tensor(v) for k, v in params_dict})
         it1 = self.model.state_dict().items()
         it2 = state_dict.items()
         l1 = len(it1)
@@ -174,6 +178,7 @@ class FlowerClient(fl.client.NumPyClient):
 
 
 
+
 def generate_client_fn(trainloaders, valloaders, model_cfg):
     """Return a function to construct a FlowerClient."""
 
@@ -182,6 +187,6 @@ def generate_client_fn(trainloaders, valloaders, model_cfg):
             trainloader=trainloaders[int(cid)],
             valloader=valloaders[int(cid)],
             model_cfg=model_cfg,
-        )
+        ).to_client()
 
     return client_fn
