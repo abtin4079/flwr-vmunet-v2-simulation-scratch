@@ -39,7 +39,7 @@ def training_process(train_loader,
 
             now_lr = optimizer.state_dict()['param_groups'][0]['lr']
 
-            if (iter + 1) % 10 == 0:
+            if (iter) % 10 == 0:
                 log_info = f'train: epoch {local_epochs}, iter:{iter}, loss: {np.mean(loss_list):.4f}, lr: {now_lr}'
                 print(log_info)
         scheduler.step() 

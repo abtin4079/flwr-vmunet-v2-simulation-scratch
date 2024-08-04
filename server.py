@@ -82,40 +82,54 @@ def get_evalulate_fn(model_cfg: int, testloader):
         
     # Convert parameters to model state_dict
         params_dict = zip(model.state_dict().keys(), parameters)
-        state_dict = OrderedDict()
 
-        for key, param in params_dict:
-            param_tensor = torch.tensor(param, dtype=torch.float32)
-
-            # Print shapes for debugging
-            # print(f"Loading Parameter: {key}, Original Shape: {param_tensor.shape}")
-
-            # Handle potential shape mismatches
-            if param_tensor.shape == torch.Size([0]):
-                # If the shape is [0], reshape it to []
-                param_tensor = param_tensor.reshape(())
-                # print(f"Reshaped Parameter: {key}, New Shape: {param_tensor.shape}")
-
-            state_dict[key] = param_tensor
-
-        # Print shapes after state_dict is created
-        # print("##### Loaded Parameter Shapes #####")
-        # for name, tensor in state_dict.items():
-        #     print(f"Loaded Parameter: {name}, Shape: {tensor.shape}")
+        state_dict = OrderedDict({k: torch.Tensor(v) for k, v in params_dict})
+        it1 = model.state_dict().items()
+        it2 = state_dict.items()
+        l1 = len(it1)
+        l2 = len(it2)
+        if l1!=l2 :
+            print(f"{l1} : {l2} length do not match")
+        else :
+            for i in model.state_dict() :
+                if not model.state_dict()[i].shape == state_dict[i].shape:
+                    print(i, model.state_dict()[i].shape, state_dict[i].shape,"Different")
+        
 
 
+        #state_dict = OrderedDict()
+        # for key, param in params_dict:
+        #     param_tensor = torch.tensor(param, dtype=torch.float32)
 
-        model.load_state_dict(state_dict, strict=True)
+        #     # Print shapes for debugging
+        #     # print(f"Loading Parameter: {key}, Original Shape: {param_tensor.shape}")
+
+        #     # Handle potential shape mismatches
+        #     if param_tensor.shape == torch.Size([0]):
+        #         # If the shape is [0], reshape it to []
+        #         param_tensor = param_tensor.reshape(())
+        #         # print(f"Reshaped Parameter: {key}, New Shape: {param_tensor.shape}")
+
+        #     state_dict[key] = param_tensor
+
+        # # Print shapes after state_dict is created
+        # # print("##### Loaded Parameter Shapes #####")
+        # # for name, tensor in state_dict.items():
+        # #     print(f"Loaded Parameter: {name}, Shape: {tensor.shape}")
+
+
+
+        model.load_state_dict(state_dict, strict=False)
 
         criterion = BceDiceLoss(wb=1, wd=1)
 
 
-        # loss , metrics = testing_process(val_loader=testloader,
-        #                 model=model,
-        #                 criterion= criterion
-        #                 )   
+        loss , metrics = testing_process(val_loader=testloader,
+                        model=model,
+                        criterion= criterion
+                        )   
 
-        loss, metrics = test_v2(model, testloader, device, criterion)     
+        # loss, metrics = test_v2(model, testloader, device, criterion)     
 
         return float(loss), {"accuracy": metrics[0],
                              "sensitivity": metrics[1],

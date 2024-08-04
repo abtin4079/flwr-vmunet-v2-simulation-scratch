@@ -1,0 +1,48 @@
+model:
+  wb: 1
+  wd: 1
+  num_classes: 1
+  input_channels: 3
+  depths:
+  - 2
+  - 2
+  - 9
+  - 2
+  depths_decoder:
+  - 2
+  - 2
+  - 2
+  - 1
+  drop_path_rate: 0.2
+  load_ckpt_path: /content/drive/MyDrive/kvasir/pretrained_model_for_vmamba/upernet_vssm_4xb4-160k_ade20k-512x512_small_iter_144000.pth
+  deep_supervision: true
+strategy:
+  _target_: flwr.server.strategy.FedAvg
+  fraction_fit: 1.0e-05
+  min_fit_clients: ${num_clients_per_round_fit}
+  fraction_evaluate: 1.0e-05
+  min_evaluate_clients: ${num_clients_per_round_eval}
+  min_available_clients: ${num_clients}
+  on_fit_config_fn:
+    _target_: server.get_on_fit_config
+    config: ${config_fit}
+num_rounds: 4
+num_clients: 2
+batch_size: 10
+num_classes: 1
+num_clients_per_round_fit: 2
+num_clients_per_round_eval: 2
+config_fit:
+  lr: 0.001
+  betas:
+  - 0.9
+  - 0.999
+  eps: 1.0e-08
+  weight_decay: 0.01
+  amsgrad: false
+  local_epochs: 1
+  T_max: 50
+  eta_min: 1.0e-05
+  last_epoch: -1
+input_size_h: 256
+input_size_w: 256

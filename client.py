@@ -48,27 +48,50 @@ class FlowerClient(fl.client.NumPyClient):
 
     def set_parameters(self, parameters):
         params_dict = zip(self.model.state_dict().keys(), parameters)
-        state_dict = OrderedDict()
 
-        for key, param in params_dict:
-            param_tensor = torch.tensor(param, dtype=torch.float32)
+        state_dict = OrderedDict({k: torch.Tensor(v) for k, v in params_dict})
+        it1 = self.model.state_dict().items()
+        it2 = state_dict.items()
+        l1 = len(it1)
+        l2 = len(it2)
+        if l1!=l2 :
+            print(f"{l1} : {l2} length do not match")
+        else :
+            for i in self.model.state_dict() :
+                if not self.model.state_dict()[i].shape == state_dict[i].shape:
+                    print(i, self.model.state_dict()[i].shape, state_dict[i].shape,"Different")
 
-        # # Debugging print to check shapes
-        # print(f"Setting Parameter: {key}, Original Shape: {param_tensor.shape}")
 
-        # Handle potential shape mismatches
-        if param_tensor.shape == torch.Size([0]):
-            param_tensor = param_tensor.reshape(())
-            # print(f"Reshaped Parameter: {key}, New Shape: {param_tensor.shape}")
 
-        state_dict[key] = param_tensor
+        # state_dict = OrderedDict()
 
-        # Print shapes after state_dict is created
-        # print("##### Set Parameter Shapes #####")
-        # for name, tensor in state_dict.items():
-        #     print(f"Set Parameter: {name}, Shape: {tensor.shape}")
+        # for key, param in params_dict:
+        #     param_tensor = torch.tensor(param, dtype=torch.float32)
+
+        # # # Debugging print to check shapes
+        # # print(f"Setting Parameter: {key}, Original Shape: {param_tensor.shape}")
+
+        # # Handle potential shape mismatches
+        # if param_tensor.shape == torch.Size([0]):
+        #     param_tensor = param_tensor.reshape(())
+        #     # print(f"Reshaped Parameter: {key}, New Shape: {param_tensor.shape}")
+
+        # state_dict[key] = param_tensor
+
+        # # Print shapes after state_dict is created
+        # # print("##### Set Parameter Shapes #####")
+        # # for name, tensor in state_dict.items():
+        # #     print(f"Set Parameter: {name}, Shape: {tensor.shape}")
+
+
+
 
         self.model.load_state_dict(state_dict, strict=False)
+
+
+
+
+
 
     def get_parameters(self, config: Dict[str, Scalar]) -> NDArrays:
       parameters = [val.cpu().numpy() for val in self.model.state_dict().values()]
@@ -135,12 +158,12 @@ class FlowerClient(fl.client.NumPyClient):
 
         criterion = BceDiceLoss(wb=1, wd=1)
 
-        # loss , metrics = testing_process(val_loader=self.valloader,
-        #                 model= self.model,
-        #                 criterion= criterion
-        #                 )
+        loss , metrics = testing_process(val_loader=self.valloader,
+                        model= self.model,
+                        criterion= criterion
+                        )
 
-        loss, metrics = test_v2(self.model, self.valloader, self.device, criterion)
+        # loss, metrics = test_v2(self.model, self.valloader, self.device, criterion)
         
 
         return float(loss), len(self.valloader), {"accuracy": metrics[0],
