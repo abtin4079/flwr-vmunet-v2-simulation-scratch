@@ -12,6 +12,7 @@ from model import train, test
 from vmunet_v2 import VMUNetV2
 from train import training_process
 from test import testing_process
+from test_v2 import test_v2
 
 class FlowerClient(fl.client.NumPyClient):
     """A standard FlowerClient."""
@@ -139,7 +140,7 @@ class FlowerClient(fl.client.NumPyClient):
         #                 criterion= criterion
         #                 )
 
-        loss, metrics = test(self.model, self.valloader, self.device, criterion)
+        loss, metrics = test_v2(self.model, self.valloader, self.device, criterion)
         
 
         return float(loss), len(self.valloader), {"accuracy": metrics[0],

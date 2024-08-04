@@ -1,7 +1,7 @@
 import torch
 
 
-def test(net, testloader, device: str, criterion):
+def test_v2(net, testloader, device: str, criterion):
     """Validate the network on the entire test set."""
     correct, loss, iou, dsc, f1, recall, precision = 0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0
     net.eval()

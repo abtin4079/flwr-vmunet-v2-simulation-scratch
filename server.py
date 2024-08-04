@@ -13,7 +13,7 @@ from vmunet_v2 import VMUNetV2
 from test import testing_process
 from utils import *
 import os
-
+from test_v2 import test_v2 
 
 
 def handle_num_batches_tracked(tensor):
@@ -115,7 +115,7 @@ def get_evalulate_fn(model_cfg: int, testloader):
         #                 criterion= criterion
         #                 )   
 
-        loss, metrics = test(model, testloader, device, criterion)     
+        loss, metrics = test_v2(model, testloader, device, criterion)     
 
         return float(loss), {"accuracy": metrics[0],
                              "sensitivity": metrics[1],
