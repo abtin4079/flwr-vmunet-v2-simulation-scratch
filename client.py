@@ -14,7 +14,7 @@ from train import training_process
 from test import testing_process
 from test_v2 import test_v2
 
-from flwr.common import Context
+#from flwr.common import Context
 
 
 
