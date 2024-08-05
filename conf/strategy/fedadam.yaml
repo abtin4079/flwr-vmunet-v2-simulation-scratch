@@ -10,8 +10,8 @@ on_fit_config_fn: # this is a function
   _target_: server.get_on_fit_config
   config: ${config_fit}
 # arguments unique to FedAdam
-eta: 0.2
-eta_l: 0.01 # client side learning rate ! so be sure the clients get it (This is not implemented currently in the example code given)
+eta: 0.1
+eta_l: 0.001 # client side learning rate ! so be sure the clients get it (This is not implemented currently in the example code given)
 tau: 0.1
 initial_parameters: # This optional for some strategies, but required by FedAdam
   _target_: model.model_to_parameters

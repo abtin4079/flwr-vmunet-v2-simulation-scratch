@@ -3,7 +3,7 @@ from vmamba import VSSM
 import torch
 from torch import nn
 import torch.nn.functional as F
-
+from flwr.common.parameter import ndarrays_to_parameters
 
 
 
@@ -222,6 +222,15 @@ class VMUNetV2(nn.Module):
             not_loaded_keys = [k for k in pretrained_dict.keys() if k not in new_dict.keys()]
             #print('Not loaded keys:', not_loaded_keys)
             print("encoder loaded finished!")
+
+
+
+
+def model_to_parameters(model):
+    ndarrays = [val.cpu().numpy() for _, val in model.state_dict().items()]
+    parameters = ndarrays_to_parameters(ndarrays)
+    print("Extracted model parameters!")
+    return parameters
 
 ############################################################################################################
             # model_dict = self.vmunet.state_dict()
