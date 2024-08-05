@@ -119,7 +119,7 @@ def get_evalulate_fn(model_cfg: int, testloader):
 
 
 
-        model.load_state_dict(state_dict, strict=False)
+        model.load_state_dict(state_dict, strict=True)
 
         criterion = BceDiceLoss(wb=1, wd=1)
 

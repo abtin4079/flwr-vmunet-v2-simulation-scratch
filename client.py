@@ -34,6 +34,7 @@ class FlowerClient(fl.client.NumPyClient):
         
         
         # defining model 
+        print(1111111)
         self.model = VMUNetV2(deep_supervision= model_cfg.deep_supervision,
                               depths=model_cfg.depths,
                               depths_decoder=model_cfg.depths_decoder,
@@ -46,7 +47,7 @@ class FlowerClient(fl.client.NumPyClient):
         # device = 'cuda:0'
 
         self.model = self.model.cuda()
-
+        self.model.load_from()
 
         self.device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
 
@@ -64,7 +65,7 @@ class FlowerClient(fl.client.NumPyClient):
             for i in self.model.state_dict() :
                 if not self.model.state_dict()[i].shape == state_dict[i].shape:
                     print(i, self.model.state_dict()[i].shape, state_dict[i].shape,"Different")
-
+        print(2222222)
 
 
         # state_dict = OrderedDict()
@@ -108,7 +109,7 @@ class FlowerClient(fl.client.NumPyClient):
     def fit(self, parameters, config):
         # copy parameters sent by the server into client's local model
         self.set_parameters(parameters)
-
+        print(121212121212)
         # config fit params from server
         lr = config["lr"]
         local_epochs = config["local_epochs"]
@@ -120,6 +121,7 @@ class FlowerClient(fl.client.NumPyClient):
         eta_min = config["eta_min"]
         last_epoch = config["last_epoch"]
 
+        print(333333)
 
         # criterion
         criterion = BceDiceLoss(wb=1, wd=1)
@@ -154,7 +156,7 @@ class FlowerClient(fl.client.NumPyClient):
                          scheduler= scheduler,
                          local_epochs= local_epochs, 
                          step= 0)
-
+        print(44444444)
         return self.get_parameters({}), len(self.trainloader), {}
 
     def evaluate(self, parameters: NDArrays, config: Dict[str, Scalar]):
@@ -176,7 +178,7 @@ class FlowerClient(fl.client.NumPyClient):
                                                   "f1_or_dsc": metrics[3],
                                                   "miou": metrics[4]}
 
-
+        print(5555555)
 
 
 def generate_client_fn(trainloaders, valloaders, model_cfg):
