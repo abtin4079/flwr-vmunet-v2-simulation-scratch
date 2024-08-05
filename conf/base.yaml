@@ -1,10 +1,10 @@
 ---
 num_rounds: 300
-num_clients: 4
+num_clients: 8
 batch_size: 10
 num_classes: 1
-num_clients_per_round_fit: 3
-num_clients_per_round_eval: 3
+num_clients_per_round_fit: 7
+num_clients_per_round_eval: 7
 config_fit:
   lr: 0.001
   betas: [0.9, 0.999]
@@ -18,7 +18,7 @@ config_fit:
 
 defaults:
   - model: vmunet_v2
-  - strategy: fedadam # points to conf/strategy/fedavg.yaml
+  - strategy: fedavg # points to conf/strategy/fedavg.yaml
   - _self_
 
 input_size_h: 256
