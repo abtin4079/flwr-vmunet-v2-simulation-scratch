@@ -220,7 +220,7 @@ class VMUNetV2(nn.Module):
             self.vmunet.load_state_dict(model_dict)
 
             not_loaded_keys = [k for k in pretrained_dict.keys() if k not in new_dict.keys()]
-            print('Not loaded keys:', not_loaded_keys)
+            #print('Not loaded keys:', not_loaded_keys)
             print("encoder loaded finished!")
 
 ############################################################################################################
