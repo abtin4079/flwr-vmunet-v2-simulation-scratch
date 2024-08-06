@@ -12,6 +12,7 @@ from dataset import prepare_dataset_kvasir
 from client import generate_client_fn
 from server import get_on_fit_config, get_evalulate_fn
 
+import logging
 
 # !!!! The code in this directory is the result of adpating the project first shown
 # in <LINK> to make better use of Hydra's config system. It is recommended to first
@@ -82,4 +83,7 @@ def main(cfg: DictConfig):
 
 
 if __name__ == "__main__":
+    
+    # Set the logging level to ERROR for Flower
+    logging.getLogger("flwr").setLevel(logging.ERROR)
     main()
