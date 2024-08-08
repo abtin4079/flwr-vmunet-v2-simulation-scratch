@@ -189,6 +189,6 @@ def generate_client_fn(trainloaders, valloaders, model_cfg):
             trainloader=trainloaders[int(cid)],
             valloader=valloaders[int(cid)],
             model_cfg=model_cfg,
-        ).to_client()
+        )#.to_client()
 
     return client_fn
