@@ -1,9 +1,10 @@
 ---
 
 # criterion 
-wb: 1
-wd: 1
+# wb: 1
+# wd: 1
 
+_target_: vmunet_v2.VMUNetV2
 num_classes: 1
 input_channels: 3
 # ----- VM-UNet-V2 -----2 9 27  small #
