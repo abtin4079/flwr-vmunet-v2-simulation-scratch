@@ -72,7 +72,7 @@ def get_evalulate_fn(model_cfg: int, testloader):
 
 
         device = torch.device("cuda:0" if  torch.cuda.is_available() else "cpu")
-        # model.to(device)
+        model.to(device)
         
     # Convert parameters to model state_dict
         params_dict = zip(model.state_dict().keys(), parameters)
