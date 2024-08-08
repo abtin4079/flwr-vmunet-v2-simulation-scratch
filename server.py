@@ -16,12 +16,6 @@ import os
 from test_v2 import test_v2 
 
 
-def handle_num_batches_tracked(tensor):
-    # Check if tensor has shape torch.Size([0])
-    if tensor.shape == torch.Size([0]):
-        # Convert to scalar tensor with shape torch.Size([])
-        return tensor.reshape(())
-    return tensor
 
 
 def get_on_fit_config(config: DictConfig):
@@ -78,7 +72,7 @@ def get_evalulate_fn(model_cfg: int, testloader):
 
 
         device = torch.device("cuda:0" if  torch.cuda.is_available() else "cpu")
-        model.to(device)
+        # model.to(device)
         
     # Convert parameters to model state_dict
         params_dict = zip(model.state_dict().keys(), parameters)
