@@ -13,8 +13,10 @@ on_fit_config_fn: # this is a function
 eta: 0.1
 eta_l: 0.001 # client side learning rate ! so be sure the clients get it (This is not implemented currently in the example code given)
 tau: 0.1
-beta_1: 0.9
-beta_2: 0.999
+
+# beta_1: 0.9
+# beta_2: 0.999
+
 initial_parameters: # This optional for some strategies, but required by FedAdam
   _target_: vmunet_v2.model_to_parameters
   model: ${model} # note you don't need to do `${defaults.model}`, just `${model}`
