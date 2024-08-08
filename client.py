@@ -178,7 +178,7 @@ class FlowerClient(fl.client.NumPyClient):
                                                   "f1_or_dsc": metrics[3],
                                                   "miou": metrics[4]}
 
-        print(5555555)
+    print(5555555)
 
 
 def generate_client_fn(trainloaders, valloaders, model_cfg):
@@ -189,6 +189,6 @@ def generate_client_fn(trainloaders, valloaders, model_cfg):
             trainloader=trainloaders[int(cid)],
             valloader=valloaders[int(cid)],
             model_cfg=model_cfg,
-        )#.to_client()
+        ).to_client()
 
     return client_fn
