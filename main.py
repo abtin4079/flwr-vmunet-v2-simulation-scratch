@@ -36,15 +36,15 @@ def main(cfg: DictConfig):
 
 
     ## 4. Define your strategy
-    strategy = fl.server.strategy.FedAvg(fraction_fit=0.00001,
-                                         min_fit_clients=cfg.num_clients_per_round_fit,
-                                         fraction_evaluate=0.00001,
-                                         min_evaluate_clients=cfg.num_clients_per_round_eval,
-                                         min_available_clients=cfg.num_clients,
-                                         on_fit_config_fn=get_on_fit_config(cfg.config_fit),
-                                         evaluate_fn=get_evalulate_fn(cfg.model,
-                                                                      testloader),
-                                                                      )
+    # strategy = fl.server.strategy.FedAvg(fraction_fit=0.00001,
+    #                                      min_fit_clients=cfg.num_clients_per_round_fit,
+    #                                      fraction_evaluate=0.00001,
+    #                                      min_evaluate_clients=cfg.num_clients_per_round_eval,
+    #                                      min_available_clients=cfg.num_clients,
+    #                                      on_fit_config_fn=get_on_fit_config(cfg.config_fit),
+    #                                      evaluate_fn=get_evalulate_fn(cfg.model,
+    #                                                                   testloader),
+    #                                                                   )
 
     # So we have replaced the above with just a single line. Now if we want to use a different strategy,
     # even if it uses new arguments, you can leave the code below as is and pick a different config
