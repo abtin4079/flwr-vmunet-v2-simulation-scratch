@@ -17,6 +17,10 @@ def training_process(train_loader,
     train model for one epoch
     '''
 
+    # for fedprox we should save the global-model weights 
+    global_params = [param.clone() for param in model.parameters()]
+
+
     for _ in range(local_epochs):
     # switch to train mode
         model.train() 
@@ -31,6 +35,16 @@ def training_process(train_loader,
 
             out = model(images)
             loss = criterion(out, targets)
+
+            ############################# fedprox section ############################
+            proximal_mu=0.1
+            proximal_term = 0.0
+            for local_weights, global_weights in zip(model.parameters(), global_params):
+                proximal_term += (local_weights - global_weights).norm(2)
+            loss = loss + (proximal_mu/ 2) *proximal_term
+
+            ############################# fedprox section ############################
+
 
             loss.backward()
             optimizer.step()
