@@ -37,11 +37,11 @@ def training_process(train_loader,
             loss = criterion(out, targets)
 
             ############################# fedprox section ############################
-            proximal_mu=0.1
-            proximal_term = 0.0
-            for local_weights, global_weights in zip(model.parameters(), global_params):
-                proximal_term += (local_weights - global_weights).norm(2)
-            loss = loss + (proximal_mu/ 2) *proximal_term
+            # proximal_mu=0.1
+            # proximal_term = 0.0
+            # for local_weights, global_weights in zip(model.parameters(), global_params):
+            #     proximal_term += (local_weights - global_weights).norm(2)
+            # loss = loss + (proximal_mu/ 2) *proximal_term
 
             ############################# fedprox section ############################
 
