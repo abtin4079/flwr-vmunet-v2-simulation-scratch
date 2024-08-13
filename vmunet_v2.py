@@ -227,7 +227,7 @@ class VMUNetV2(nn.Module):
 
 
 def model_to_parameters(model):
-    ndarrays = [val.cpu().numpy() for _, val in model.state_dict().items()]
+    ndarrays = [val.cpu().numpy() for val in model.state_dict()]
     parameters = ndarrays_to_parameters(ndarrays)
     print("Extracted model parameters!")
     return parameters
