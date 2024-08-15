@@ -11,7 +11,3 @@ on_fit_config_fn: # this is a function
 # we could define here evaluate_fn, but since it requires arguments
 # that are defined at runtime (e.g. the test loader), let's better
 # do it in the main
-
-initial_parameters: # This optional for some strategies, but required by FedAdam
-  _target_: vmunet_v2.model_to_parameters
-  model: ${model} 
