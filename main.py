@@ -5,6 +5,7 @@ import hydra
 from hydra.utils import instantiate, call
 from hydra.core.hydra_config import HydraConfig
 from omegaconf import DictConfig, OmegaConf
+from flwr.server.strategy.fedxgb_bagging import FedXgbBagging
 
 import flwr as fl
 
@@ -36,7 +37,7 @@ def main(cfg: DictConfig):
 
 
     ## 4. Define your strategy
-    strategy = fl.server.strategy.FedXgbBagging(fraction_fit=0.00001,
+    strategy = FedXgbBagging(fraction_fit=0.00001,
                                          min_fit_clients=cfg.num_clients_per_round_fit,
                                          fraction_evaluate=0.00001,
                                          min_evaluate_clients=cfg.num_clients_per_round_eval,
