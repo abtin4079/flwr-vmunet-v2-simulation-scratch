@@ -5,7 +5,7 @@ import hydra
 from hydra.utils import instantiate, call
 from hydra.core.hydra_config import HydraConfig
 from omegaconf import DictConfig, OmegaConf
-from flwr.server.strategy.fedxgb_bagging import FedXgbBagging
+# from flwr.server.strategy.fedxgb_bagging import FedXgbBagging
 
 import flwr as fl
 
@@ -37,15 +37,15 @@ def main(cfg: DictConfig):
 
 
     ## 4. Define your strategy
-    strategy = FedXgbBagging(fraction_fit=0.00001,
-                                         min_fit_clients=cfg.num_clients_per_round_fit,
-                                         fraction_evaluate=0.00001,
-                                         min_evaluate_clients=cfg.num_clients_per_round_eval,
-                                         min_available_clients=cfg.num_clients,
-                                         on_fit_config_fn=get_on_fit_config(cfg.config_fit),
-                                         evaluate_fn=get_evalulate_fn(cfg.model,
-                                                                      testloader),
-                                                                      )
+    # strategy = FedXgbBagging(fraction_fit=0.00001,
+    #                                      min_fit_clients=cfg.num_clients_per_round_fit,
+    #                                      fraction_evaluate=0.00001,
+    #                                      min_evaluate_clients=cfg.num_clients_per_round_eval,
+    #                                      min_available_clients=cfg.num_clients,
+    #                                      on_fit_config_fn=get_on_fit_config(cfg.config_fit),
+    #                                      evaluate_fn=get_evalulate_fn(cfg.model,
+    #                                                                   testloader),
+    #                                                                   )
 
     # So we have replaced the above with just a single line. Now if we want to use a different strategy,
     # even if it uses new arguments, you can leave the code below as is and pick a different config
@@ -57,9 +57,9 @@ def main(cfg: DictConfig):
     # manually the moment you call `instantiate`. (if you are familiar with Python partials, this is similar)
 
 
-    # strategy = instantiate(
-    #     cfg.strategy, evaluate_fn=get_evalulate_fn(cfg.model, testloader)
-    # )
+    strategy = instantiate(
+        cfg.strategy, evaluate_fn=get_evalulate_fn(cfg.model, testloader)
+    )
 
     ## 5. Start Simulation
 
