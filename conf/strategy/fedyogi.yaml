@@ -12,9 +12,10 @@ on_fit_config_fn: # this is a function
 # that are defined at runtime (e.g. the test loader), let's better
 # do it in the main
 eta: 0.01  # Server learning rate
+eta_l: 0.04
 beta_1: 0.9  # First moment estimate (AdamW-compatible)
 beta_2: 0.999  # Second moment estimate (AdamW-compatible)
-tau: 0.1
+tau: 0.01
 
 initial_parameters: # This optional for some strategies, but required by FedAdam
   _target_: vmunet_v2.model_to_parameters
