@@ -12,15 +12,15 @@ from utils import *
 class Polyp_datasets(Dataset):
     def __init__(self, input_size_h, input_size_w, train=True):
         super(Polyp_datasets, self)
-        path_Data = '/kaggle/working/COLON_CANCER_DATASET'
+        path_Data = '/kaggle/working/CVC-ClinicDB'
         if train:
             images_list = os.path.join(path_Data, 'train/img')
             masks_list = os.path.join(path_Data, 'train/mask')
             self.data = []
             for p in os.listdir(images_list):
                 name = p.split('.')[0]
-                img_path = path_Data+'/train/img/' + name + '.jpg'
-                mask_path = path_Data+'/train/mask/' + name + '.jpg'
+                img_path = path_Data+'/train/img/' + name + '.png'
+                mask_path = path_Data+'/train/mask/' + name + '.png'
                 self.data.append([img_path, mask_path])
             self.transformer  = transforms.Compose([
                         #myNormalize(datasets, train=True), #
@@ -36,8 +36,8 @@ class Polyp_datasets(Dataset):
             self.data = []
             for p in os.listdir(images_list):
                 name = p.split('.')[0]
-                img_path = path_Data+'/test/img/' + name + '.jpg' 
-                mask_path = path_Data+'/test/mask/' + name + '.jpg' 
+                img_path = path_Data+'/test/img/' + name + '.png' 
+                mask_path = path_Data+'/test/mask/' + name + '.png' 
                 self.data.append([img_path, mask_path])
             self.transformer = transforms.Compose([
         #myNormalize(datasets, train=False),
