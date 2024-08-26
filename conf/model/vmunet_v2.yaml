@@ -1,6 +1,5 @@
 ---
-
-# criterion 
+# criterion
 # wb: 1
 # wd: 1
 
@@ -8,9 +7,8 @@ _target_: vmunet_v2.VMUNetV2
 num_classes: 1
 input_channels: 3
 # ----- VM-UNet-V2 -----2 9 27  small #
-depths: [2,2,9,2]
-depths_decoder: [2,2,2,1]
+depths: [2, 2, 9, 2]
+depths_decoder: [2, 2, 2, 1]
 drop_path_rate: 0.2
-load_ckpt_path: '/content/drive/MyDrive/pretrained_model_for_mamba/upernet_vssm_4xb4-160k_ade20k-512x512_small_iter_144000.pth'
+load_ckpt_path: "/content/drive/MyDrive/pretrained_model_for_vmamba/upernet_vssm_4xb4-160k_ade20k-512x512_small_iter_144000.pth"
 deep_supervision: True
-    
