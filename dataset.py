@@ -19,7 +19,7 @@ class Polyp_datasets(Dataset):
             self.data = []
             for p in os.listdir(images_list):
                 name = p.split('.')[0]
-                img_path = path_Data+'/train/img/' + name + '.png'
+                img_path = path_Data+'/train/img/' + name + '.jpg'
                 mask_path = path_Data+'/train/mask/' + name + '.png'
                 self.data.append([img_path, mask_path])
             self.transformer  = transforms.Compose([
@@ -37,7 +37,7 @@ class Polyp_datasets(Dataset):
             for p in os.listdir(images_list):
                 name = p.split('.')[0]
                 img_path = path_Data+'/test/img/' + name + '.jpg' 
-                mask_path = path_Data+'/test/mask/' + name + '.jpg' 
+                mask_path = path_Data+'/test/mask/' + name + '.png' 
                 self.data.append([img_path, mask_path])
             self.transformer = transforms.Compose([
         #myNormalize(datasets, train=False),
