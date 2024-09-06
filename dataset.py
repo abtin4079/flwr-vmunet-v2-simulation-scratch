@@ -12,7 +12,7 @@ from utils import *
 class Polyp_datasets(Dataset):
     def __init__(self, input_size_h, input_size_w, train=True):
         super(Polyp_datasets, self)
-        path_Data = '/content/drive/MyDrive/KVASIR-INSTRUMENT-FOR-COOLAB'
+        path_Data = '/content/drive/MyDrive/CVC-ClinicDB'
         if train:
             images_list = os.path.join(path_Data, 'train/img')
             masks_list = os.path.join(path_Data, 'train/mask')
