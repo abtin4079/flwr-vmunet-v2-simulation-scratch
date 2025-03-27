@@ -5,7 +5,7 @@ from omegaconf import DictConfig
 from hydra.utils import instantiate
 from flwr.common import NDArrays, Scalar
 from typing import Dict, Tuple
-
+import numpy as np
 import torch
 
 from model import Net, test
@@ -29,11 +29,12 @@ def get_on_fit_config(config: DictConfig):
         # else:
         #     lr = config.lr
 
-        file_path = 'learning_rate.txt'
-        if (os.path.exists(file_path) and server_round > 0):
-            lr = read_lines_and_compute_mean(file_path)
+        file_path = 'client_metrics.txt'
+        if os.path.exists(file_path) and server_round > 0:
+            lr = compute_dsc_weighted_lr(file_path)
         else:
             lr = config.lr
+
 
         return {
             "lr": lr,
@@ -147,3 +148,38 @@ def read_lines_and_compute_mean(file_path):
     mean = sum(numbers) / len(numbers)
     
     return mean
+
+
+def compute_dsc_weighted_lr(file_path):
+    with open(file_path, 'r') as f:
+        lines = f.readlines()
+
+    if not lines:
+        return None
+
+    dscs = []
+    lrs = []
+
+    for line in lines:
+        try:
+            dsc_str, lr_str = line.strip().split(',')
+            dsc = float(dsc_str)
+            lr = float(lr_str)
+            dscs.append(dsc)
+            lrs.append(lr)
+        except ValueError:
+            continue  # skip malformed lines
+
+    if not dscs or not lrs:
+        return None
+
+    dsc_array = np.array(dscs)
+    lr_array = np.array(lrs)
+
+    # Inverse loss = 1 / (1 - dsc)
+    inv_losses = 1.0 / (1e-8 + (1 - dsc_array))
+    weights = inv_losses / np.sum(inv_losses)
+
+    weighted_lr = np.sum(weights * lr_array)
+
+    return weighted_lr

@@ -14,6 +14,8 @@ from train import training_process
 from test import testing_process
 from test_v2 import test_v2
 
+from filelock import FileLock
+
 #from flwr.common import Context
 
 
@@ -152,6 +154,7 @@ class FlowerClient(fl.client.NumPyClient):
 
         training_process(sgd_falg= True,
             train_loader= self.trainloader,
+            valloader= self.valloader,
                          model= self.model,
                          criterion= criterion, 
                          optimizer= optimizer,
@@ -159,7 +162,25 @@ class FlowerClient(fl.client.NumPyClient):
                          local_epochs= local_epochs, 
                          step= 0)
         print(44444444)
-        return self.get_parameters({}), len(self.trainloader), {}
+
+
+
+                # Evaluate after training
+        _, metrics = testing_process(
+            val_loader=self.valloader,
+            model=self.model,
+            criterion=BceDiceLoss(wb=1, wd=1)
+        )
+        dsc = metrics[3]  # DSC index
+
+        # Safe write with locking
+        log_file = "client_metrics.txt"
+        lock = FileLock(f"{log_file}.lock")
+
+        with lock:
+            with open(log_file, "a") as f:
+                f.write(f"{dsc},{lr}\n")
+                return self.get_parameters({}), len(self.trainloader), {}
 
     def evaluate(self, parameters: NDArrays, config: Dict[str, Scalar]):
         self.set_parameters(parameters)

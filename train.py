@@ -1,9 +1,11 @@
 import numpy as np
 from tqdm import tqdm
+from test import testing_process
 import torch
 from torch.cuda.amp import autocast as autocast
 from sklearn.metrics import confusion_matrix
-from utils import save_imgs
+from utils import BceDiceLoss, save_imgs
+from filelock import FileLock
 
 
 def training_process(sgd_falg: bool,
@@ -13,6 +15,7 @@ def training_process(sgd_falg: bool,
                     optimizer, 
                     scheduler,
                     local_epochs, 
+                    valloader,
                     step):
     '''
     train model for one epoch
@@ -64,7 +67,25 @@ def training_process(sgd_falg: bool,
         print(f"Epoch {local_epochs + 1}/{local_epochs} completed. Learning rate updated to {now_lr}")
 
             # Write the updated learning rate to a text file
-    with open('learning_rate.txt', 'w') as f:
-        f.write(f"{now_lr}\n")
+    
+    # Evaluate after training
+    val_loss, metrics = testing_process(
+        val_loader=valloader,
+        model=model,
+        criterion=BceDiceLoss(wb=1, wd=1)
+    )
+    dsc = metrics[3]  # DSC index
+
+    # Safe write with locking
+    log_file = "client_metrics.txt"
+    lock = FileLock(f"{log_file}.lock")
+
+    with lock:
+        with open(log_file, "a") as f:
+            f.write(f"{dsc},{now_lr}\n")
+
+
+    # with open('learning_rate.txt', 'w') as f:
+    #     f.write(f"{now_lr}\n")
 
     return step 
