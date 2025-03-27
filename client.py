@@ -134,6 +134,7 @@ class FlowerClient(fl.client.NumPyClient):
                                   eps=eps, 
                                   weight_decay=weight_decay, 
                                   )
+        
 
         # scheduler
         scheduler = torch.optim.lr_scheduler.CosineAnnealingLR(
@@ -149,7 +150,8 @@ class FlowerClient(fl.client.NumPyClient):
         # do local training
         #train(self.model, self.trainloader, optim, epochs, self.device)
 
-        training_process(train_loader= self.trainloader,
+        training_process(sgd_falg= True,
+            train_loader= self.trainloader,
                          model= self.model,
                          criterion= criterion, 
                          optimizer= optimizer,
